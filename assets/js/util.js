@@ -41,9 +41,8 @@ Util.setAttributes = function(el, attrs) {
   DOM manipulation
 */
 Util.getChildrenByClassName = function(el, className) {
-  var children = el.children,
-    childrenByClass = [];
-  for (var i = 0; i < el.children.length; i++) {
+    let childrenByClass = [];
+  for (let i = 0; i < el.children.length; i++) {
     if (Util.hasClass(el.children[i], className)) childrenByClass.push(el.children[i]);
   }
   return childrenByClass;
