@@ -127,16 +127,17 @@
 			(i < timeline.newDateIndex) ? Util.addClass(timeline.date[i], 'cd-h-timeline__date--older-event') : Util.removeClass(timeline.date[i], 'cd-h-timeline__date--older-event');
 		}
 	}
-
+		let classEntering;
+  		let classLeaving;
 	function updateVisibleContent(timeline) { // show content of new selected date
 		if (timeline.newDateIndex > timeline.oldDateIndex) {
-			var classEntering = 'cd-h-timeline__event--selected cd-h-timeline__event--enter-right',
+			classEntering = 'cd-h-timeline__event--selected cd-h-timeline__event--enter-right';
 				classLeaving = 'cd-h-timeline__event--leave-left';
 		} else if(timeline.newDateIndex < timeline.oldDateIndex) {
-			var classEntering = 'cd-h-timeline__event--selected cd-h-timeline__event--enter-left',
+			classEntering = 'cd-h-timeline__event--selected cd-h-timeline__event--enter-left';
 				classLeaving = 'cd-h-timeline__event--leave-right';
 		} else {
-			var classEntering = 'cd-h-timeline__event--selected',
+			classEntering = 'cd-h-timeline__event--selected';
 				classLeaving = '';
 		}
 
