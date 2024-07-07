@@ -1,11 +1,11 @@
 const dates = document.getElementById('MAIN-DATES');
-const datetemplate = '<li><a href="#0" data-date="%date%" class="%type%">%format_date%</a></li>';
+const datetemplate = '<li><a id="#%id%" href="#%hr%" data-date="%date%" class="%type%">%format_date%</a></li>';
 
 const data = document.getElementById('MAIN-DATA');
 const date_normal = 'cd-h-timeline__date';
 const date_sel = 'cd-h-timeline__date cd-h-timeline__date--selected';
 
-const datatemplate = `<li class="%datatype%">
+const datatemplate = `<li id="--%id%"  class="%datatype%">
     <div class="cd-h-timeline__event-content container">
     <h2 class="cd-h-timeline__event-title">%title%</h2>
     <em class="cd-h-timeline__event-date">%date%</em>
@@ -22,7 +22,7 @@ window.onload = async function() {
     try {
         const response = await fetch('/api/entries');
         const files = await response.json();
-        const lastIndex = files.length - 1;
+        const totalItems = files.length;
         for (const [index, file] of files.entries()) {
             let title, date, dateformatted;
             
@@ -42,21 +42,25 @@ window.onload = async function() {
             } catch (error) {
                 console.error('Error fetching file date:', error);
             }
-            
-            const type = index === lastIndex ? date_sel : date_normal;
-            const datatype = index === lastIndex ? data_sel : data_normal;
+
+            const type = index === totalItems - 1 ? date_sel : date_normal;
+            const datatype = index === totalItems - 1 ? data_sel : data_normal;
+            const reversedIndex = totalItems - 1 - index;
             
             const editeddate = datetemplate
                 .replace('%date%', date)
                 .replace('%format_date%', dateformatted)
-                .replace('%type%', type);
+                .replace('%type%', type)
+                .replace('%id%', reversedIndex.toString())
+                .replace('%hr%', reversedIndex.toString());
             dates.innerHTML += editeddate;
             const editeddata = datatemplate
                 .replace('%title%', title)
-                .replace('%date%', date)
+                .replace('%date%', `(#${reversedIndex.toString()}) ${date}`)
                 .replace('%path%', encodeURIComponent(file))
                 .replace('%iframeid%', encodeURIComponent(file))
-                .replace('%datatype%', datatype);
+                .replace('%datatype%', datatype)
+                .replace('%id%', reversedIndex.toString());
             data.innerHTML += editeddata;
         }
     } catch (error) {
@@ -86,6 +90,22 @@ window.onload = async function() {
     }
     
     loadAdditionalScripts();
+    
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        const timetable = document.getElementById('#' + hash);
+        const timetable_curr = document.getElementById('#0');
+        const content = document.getElementById('--' + hash);
+        const content_curr = document.getElementById('--0');
+        if (timetable_curr && content_curr) {
+            timetable_curr.classList.remove('cd-h-timeline__date--selected');
+            content_curr.classList.remove('cd-h-timeline__event--selected');
+        }
+        if (timetable && content) {
+            timetable.classList.add('cd-h-timeline__date--selected');
+            content.classList.add('cd-h-timeline__event--selected');
+        }
+    }
 };
 
 window.addEventListener('message', function(event) {
