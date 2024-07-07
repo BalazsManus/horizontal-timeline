@@ -19,10 +19,9 @@
 </body>
 
 <script>
-    function sendHeightToParent() {
-        console.log('ok')
+    function sendHeightToParent(iframeId) {
         const height = document.documentElement.scrollHeight || document.body.scrollHeight;
-        window.parent.postMessage({iframeHeight: height}, '*');
+        window.parent.postMessage({iframeHeight: height, iframeId: iframeId}, '*');
     }
     
     function getQuery(key) {
@@ -43,7 +42,7 @@
         const md = document.getElementById('md');
         md.setAttribute("src", "/api/entries/content?file=" + getQuery("src"))
         md.setAttribute("no-shadow", "")
-        md.addEventListener('zero-md-rendered', sendHeightToParent);
+        md.addEventListener('zero-md-rendered', () => sendHeightToParent(getQuery("src")));
     }
 </script>
 

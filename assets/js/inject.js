@@ -10,7 +10,7 @@ const datatemplate = `<li class="%datatype%">
     <h2 class="cd-h-timeline__event-title">%title%</h2>
     <em class="cd-h-timeline__event-date">%date%</em>
     <p class="cd-h-timeline__event-description color-contrast-medium"> 
-        <iframe src="/md.htm?src=%path%" width="100%"></iframe>
+        <iframe id="%iframeid%"  src="/md.htm?src=%path%" width="100%"></iframe>
     </p>
     </div>
     </li>`;
@@ -55,6 +55,7 @@ window.onload = async function() {
                 .replace('%title%', title)
                 .replace('%date%', date)
                 .replace('%path%', encodeURIComponent(file))
+                .replace('%iframeid%', encodeURIComponent(file))
                 .replace('%datatype%', datatype);
             data.innerHTML += editeddata;
         }
@@ -88,8 +89,10 @@ window.onload = async function() {
 };
 
 window.addEventListener('message', function(event) {
-    if (event.data.iframeHeight) {
-        const iframe = document.querySelector('iframe');
-        iframe.style.height = `${event.data.iframeHeight}px`;
+    if (event.data.iframeHeight && event.data.iframeId) {
+        const iframe = document.getElementById(event.data.iframeId);
+        if (iframe) {
+            iframe.style.height = `${event.data.iframeHeight}px`;
+        }
     }
 }, false);
