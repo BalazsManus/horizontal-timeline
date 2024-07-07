@@ -61,10 +61,6 @@ window.onload = async function() {
     } catch (error) {
         console.error('Error fetching entries:', error);
     }
-
-    document.querySelectorAll('iframe').forEach(iframe => {
-        iframe.onload = () => adjustIframeHeight(iframe);
-    });
     
     function loadScript(src, callback) {
         const script = document.createElement('script');
@@ -91,14 +87,9 @@ window.onload = async function() {
     loadAdditionalScripts();
 };
 
-function adjustIframeHeight(iframe) {
-    try {
-        requestAnimationFrame(() => {
-            const doc = iframe.contentDocument || iframe.contentWindow.document;
-            const height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
-            iframe.style.height = `${height + 20}px`;
-        });
-    } catch (error) {
-        console.error('Error adjusting iframe height:', error);
+window.addEventListener('message', function(event) {
+    if (event.data.iframeHeight) {
+        const iframe = document.querySelector('iframe');
+        iframe.style.height = `${event.data.iframeHeight}px`;
     }
-}
+}, false);

@@ -19,12 +19,18 @@
 </body>
 
 <script>
+    function sendHeightToParent() {
+        console.log('ok')
+        const height = document.documentElement.scrollHeight || document.body.scrollHeight;
+        window.parent.postMessage({iframeHeight: height}, '*');
+    }
+    
     function getQuery(key) {
-        var query = window.location.search.substring(1);
-        var key_values = query.split("&");
-        var params = {};
+        const query = window.location.search.substring(1);
+        const key_values = query.split("&");
+        const params = {};
         key_values.map(function (key_val) {
-            var key_val_arr = key_val.split("=");
+            const key_val_arr = key_val.split("=");
             params[key_val_arr[0]] = key_val_arr[1];
         });
         if (typeof params[key] != "undefined") {
@@ -34,15 +40,10 @@
     }
 
     window.onload = function () {
-        md = document.getElementById('md')
+        const md = document.getElementById('md');
         md.setAttribute("src", "/api/entries/content?file=" + getQuery("src"))
         md.setAttribute("no-shadow", "")
-        
-        md.addEventListener('zero-md-rendered', function() {
-            console.log("ok")
-            const styles = document.getElementsByClassName("markdown-styles");
-            styles[0].innerHTML += '';
-        });
+        md.addEventListener('zero-md-rendered', sendHeightToParent);
     }
 </script>
 
