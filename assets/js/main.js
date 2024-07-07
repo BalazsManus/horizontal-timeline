@@ -30,7 +30,7 @@
   	// set dates left position
   	var left = 0;
 		for (var i = 0; i < timeline.dateValues.length; i++) { 
-			var j = (i == 0) ? 0 : i - 1;
+			var j = (i === 0) ? 0 : i - 1;
 	    var distance = daydiff(timeline.dateValues[j], timeline.dateValues[i]),
 	    	distanceNorm = (Math.round(distance/timeline.minLapse) + 2)*timeline.eventsMinDistance;
 	
@@ -66,10 +66,10 @@
 
 		//swipe on timeline
 		new SwipeContent(self.datesContainer);
-		self.datesContainer.addEventListener('swipeLeft', function(event){
+		self.datesContainer.addEventListener('swipeLeft', function(){
 			translateTimeline(self, 'next');
 		});
-		self.datesContainer.addEventListener('swipeRight', function(event){
+		self.datesContainer.addEventListener('swipeRight', function(){
 			translateTimeline(self, 'prev');
 		});
 
@@ -81,8 +81,8 @@
 					selectNewDate(self, event.target);
 				});
 
-				self.content[i].addEventListener('animationend', function(event){
-					if( i == self.newDateIndex && self.newDateIndex != self.oldDateIndex) resetAnimation(self);
+				self.content[i].addEventListener('animationend', function(){
+					if( i === self.newDateIndex && self.newDateIndex !== self.oldDateIndex) resetAnimation(self);
 				});
 			})(i);
 		}
@@ -100,15 +100,15 @@
   function translateTimeline(timeline, direction) { // translate timeline (and date elements)
   	var containerWidth = timeline.datesContainer.offsetWidth;
   	if(direction) {
-  		timeline.translate = (direction == 'next') ? timeline.translate - containerWidth + timeline.eventsMinDistance : timeline.translate + containerWidth - timeline.eventsMinDistance;
+  		timeline.translate = (direction === 'next') ? timeline.translate - containerWidth + timeline.eventsMinDistance : timeline.translate + containerWidth - timeline.eventsMinDistance;
   	}
     if( 0 - timeline.translate > timeline.lineLength - containerWidth ) timeline.translate = containerWidth - timeline.lineLength;
     if( timeline.translate > 0 ) timeline.translate = 0;
 
     timeline.line.style.transform = 'translateX('+timeline.translate+'px)';
     // update the navigation items status (toggle inactive class)
-		(timeline.translate == 0 ) ? Util.addClass(timeline.navigation[0], 'cd-h-timeline__navigation--inactive') : Util.removeClass(timeline.navigation[0], 'cd-h-timeline__navigation--inactive');
-		(timeline.translate == containerWidth - timeline.lineLength ) ? Util.addClass(timeline.navigation[1], 'cd-h-timeline__navigation--inactive') : Util.removeClass(timeline.navigation[1], 'cd-h-timeline__navigation--inactive');
+		(timeline.translate === 0 ) ? Util.addClass(timeline.navigation[0], 'cd-h-timeline__navigation--inactive') : Util.removeClass(timeline.navigation[0], 'cd-h-timeline__navigation--inactive');
+		(timeline.translate === containerWidth - timeline.lineLength ) ? Util.addClass(timeline.navigation[1], 'cd-h-timeline__navigation--inactive') : Util.removeClass(timeline.navigation[1], 'cd-h-timeline__navigation--inactive');
   }
 
 	function selectNewDate(timeline, target) { // ned date has been selected -> update timeline
@@ -141,7 +141,7 @@
 		}
 
 		Util.addClass(timeline.content[timeline.newDateIndex], classEntering);
-		if (timeline.newDateIndex != timeline.oldDateIndex) {
+		if (timeline.newDateIndex !== timeline.oldDateIndex) {
 			Util.removeClass(timeline.content[timeline.oldDateIndex], 'cd-h-timeline__event--selected');
 			Util.addClass(timeline.content[timeline.oldDateIndex], classLeaving);
 			timeline.contentWrapper.style.height = timeline.content[timeline.newDateIndex].offsetHeight + 'px';
@@ -155,7 +155,7 @@
 	}
 
 	function keyNavigateTimeline(timeline, direction) { // navigate the timeline using the keyboard
-		var newIndex = (direction == 'next') ? timeline.newDateIndex + 1 : timeline.newDateIndex - 1;
+		var newIndex = (direction === 'next') ? timeline.newDateIndex + 1 : timeline.newDateIndex - 1;
 		if(newIndex < 0 || newIndex >= timeline.date.length) return;
 		selectNewDate(timeline, timeline.date[newIndex]);
 		resetTimelinePosition(timeline, direction);
@@ -166,7 +166,7 @@
 			eventLeft = Number(eventStyle.getPropertyValue('left').replace('px', '')),
 			timelineWidth = timeline.datesContainer.offsetWidth;
 
-    if( (direction == 'next' && eventLeft >= timelineWidth - timeline.translate) || (direction == 'prev' && eventLeft <= - timeline.translate) ) {
+    if( (direction === 'next' && eventLeft >= timelineWidth - timeline.translate) || (direction === 'prev' && eventLeft <= - timeline.translate) ) {
     	timeline.translate = timelineWidth/2 - eventLeft;
     	translateTimeline(timeline, false);
     }
