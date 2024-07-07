@@ -172,21 +172,24 @@
     }
   }
 
-  function parseDate(timeline) { // get timestamp value for each date
+  function parseDate(timeline) { let dayComp;
+	  let timeComp;
+// get timestamp value for each date
 		var dateArrays = [];
 		for(var i = 0; i < timeline.date.length; i++) {
 			var singleDate = timeline.date[i].getAttribute('data-date'),
 				dateComp = singleDate.split('T');
 			
+			
 			if( dateComp.length > 1 ) { //both DD/MM/YEAR and time are provided
-				var dayComp = dateComp[0].split('/'),
-					timeComp = dateComp[1].split(':');
+				dayComp = dateComp[0].split('/');
+				timeComp = dateComp[1].split(':');
 			} else if( dateComp[0].indexOf(':') >=0 ) { //only time is provide
-				var dayComp = ["2000", "0", "0"],
-					timeComp = dateComp[0].split(':');
+				dayComp = ["2000", "0", "0"];
+				timeComp = dateComp[0].split(':');
 			} else { //only DD/MM/YEAR
-				var dayComp = dateComp[0].split('/'),
-					timeComp = ["0", "0"];
+				dayComp = dateComp[0].split('/');
+				timeComp = ["0", "0"];
 			}
 			var	newDate = new Date(dayComp[2], dayComp[1]-1, dayComp[0], timeComp[0], timeComp[1]);
 			dateArrays.push(newDate);
@@ -218,9 +221,9 @@
 		}
 		// navigate the timeline when inside the viewport using the keyboard
 		document.addEventListener('keydown', function(event){
-			if( (event.keyCode && event.keyCode == 39) || ( event.key && event.key.toLowerCase() == 'arrowright') ) {
+			if( (event.keyCode && event.keyCode === 39) || ( event.key && event.key.toLowerCase() === 'arrowright') ) {
 				updateHorizontalTimeline('next'); // move to next event
-			} else if((event.keyCode && event.keyCode == 37) || ( event.key && event.key.toLowerCase() == 'arrowleft')) {
+			} else if((event.keyCode && event.keyCode === 37) || ( event.key && event.key.toLowerCase() === 'arrowleft')) {
 				updateHorizontalTimeline('prev'); // move to prev event
 			}
 		});
