@@ -1,5 +1,5 @@
 // Utility function
-function Util () {};
+function Util () {}
 
 /* 
 	class manipulation functions

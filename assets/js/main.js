@@ -50,7 +50,7 @@
 		Util.addClass(timeline.element, 'cd-h-timeline--loaded');
 		selectNewDate(timeline, timeline.selectedDate);
 		resetTimelinePosition(timeline, 'next');
-  };
+  }
 
   function initEvents(timeline) {
   	var self = timeline;
@@ -86,7 +86,7 @@
 				});
 			})(i);
 		}
-  };
+  }
 
   function updateFilling(timeline) { // update fillingLine scale value
 		var dateStyle = window.getComputedStyle(timeline.selectedDate, null),
@@ -95,7 +95,7 @@
 		
 		left = Number(left.replace('px', '')) + Number(width.replace('px', ''))/2;
 		timeline.fillingLine.style.transform = 'scaleX('+(left/timeline.lineLength)+')';
-	};
+	}
 
   function translateTimeline(timeline, direction) { // translate timeline (and date elements)
   	var containerWidth = timeline.datesContainer.offsetWidth;
@@ -109,7 +109,7 @@
     // update the navigation items status (toggle inactive class)
 		(timeline.translate == 0 ) ? Util.addClass(timeline.navigation[0], 'cd-h-timeline__navigation--inactive') : Util.removeClass(timeline.navigation[0], 'cd-h-timeline__navigation--inactive');
 		(timeline.translate == containerWidth - timeline.lineLength ) ? Util.addClass(timeline.navigation[1], 'cd-h-timeline__navigation--inactive') : Util.removeClass(timeline.navigation[1], 'cd-h-timeline__navigation--inactive');
-  };
+  }
 
 	function selectNewDate(timeline, target) { // ned date has been selected -> update timeline
 		timeline.newDateIndex = Util.getIndexInArray(timeline.date, target);
@@ -120,13 +120,13 @@
 		updateOlderEvents(timeline);
 		updateVisibleContent(timeline);
 		updateFilling(timeline);
-	};
+	}
 
 	function updateOlderEvents(timeline) { // update older events style
 		for(var i = 0; i < timeline.date.length; i++) {
 			(i < timeline.newDateIndex) ? Util.addClass(timeline.date[i], 'cd-h-timeline__date--older-event') : Util.removeClass(timeline.date[i], 'cd-h-timeline__date--older-event');
 		}
-	};
+	}
 
 	function updateVisibleContent(timeline) { // show content of new selected date
 		if (timeline.newDateIndex > timeline.oldDateIndex) {
@@ -146,20 +146,20 @@
 			Util.addClass(timeline.content[timeline.oldDateIndex], classLeaving);
 			timeline.contentWrapper.style.height = timeline.content[timeline.newDateIndex].offsetHeight + 'px';
 		}
-	};
+	}
 
 	function resetAnimation(timeline) { // reset content classes when entering animation is over
 		timeline.contentWrapper.style.height = null;
 		Util.removeClass(timeline.content[timeline.newDateIndex], 'cd-h-timeline__event--enter-right cd-h-timeline__event--enter-left');
 		Util.removeClass(timeline.content[timeline.oldDateIndex], 'cd-h-timeline__event--leave-right cd-h-timeline__event--leave-left');
-	};
+	}
 
 	function keyNavigateTimeline(timeline, direction) { // navigate the timeline using the keyboard
 		var newIndex = (direction == 'next') ? timeline.newDateIndex + 1 : timeline.newDateIndex - 1;
 		if(newIndex < 0 || newIndex >= timeline.date.length) return;
 		selectNewDate(timeline, timeline.date[newIndex]);
 		resetTimelinePosition(timeline, direction);
-	};
+	}
 	
 	function resetTimelinePosition(timeline, direction) { //translate timeline according to new selected event position
 		var eventStyle = window.getComputedStyle(timeline.selectedDate, null),
@@ -170,7 +170,7 @@
     	timeline.translate = timelineWidth/2 - eventLeft;
     	translateTimeline(timeline, false);
     }
-  };
+  }
 
   function parseDate(timeline) { // get timestamp value for each date
 		var dateArrays = [];
@@ -192,7 +192,7 @@
 			dateArrays.push(newDate);
 		}
 	  return dateArrays;
-  };
+  }
 
   function calcMinLapse(timeline) { // determine the minimum distance among events
 		var dateDistances = [];
@@ -202,11 +202,11 @@
 		}
 
 		return (dateDistances.length > 0 ) ? Math.min.apply(null, dateDistances) : 86400000;
-	};
+	}
 
 	function daydiff(first, second) { // time distance between events
 		return Math.round((second-first));
-	};
+	}
 
   window.HorizontalTimeline = HorizontalTimeline;
 
@@ -224,13 +224,13 @@
 				updateHorizontalTimeline('prev'); // move to prev event
 			}
 		});
-  };
+  }
 
   function updateHorizontalTimeline(direction) {
 		for(var i = 0; i < horizontalTimelineTimelineArray.length; i++) {
 			if(elementInViewport(horizontalTimeline[i])) keyNavigateTimeline(horizontalTimelineTimelineArray[i], direction);
 		}
-  };
+  }
 
   /*
 		How to tell if a DOM element is visible in the current viewport?

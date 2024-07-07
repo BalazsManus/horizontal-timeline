@@ -12,7 +12,7 @@
 	function initSwipeContent(content) {
 		content.element.addEventListener('mousedown', handleEvent.bind(content));
 		content.element.addEventListener('touchstart', handleEvent.bind(content));
-	};
+	}
 
 	function initDragging(content) {
 		//add event listeners
@@ -21,11 +21,11 @@
 		content.element.addEventListener('mouseup', handleEvent.bind(content));
 		content.element.addEventListener('mouseleave', handleEvent.bind(content));
 		content.element.addEventListener('touchend', handleEvent.bind(content));
-	};
+	}
 
 	function cancelDragging(content) {
 		//remove event listeners
-		if(content.intervalId) {
+		if (content.intervalId) {
 			(!window.requestAnimationFrame) ? clearInterval(content.intervalId) : window.cancelAnimationFrame(content.intervalId);
 			content.intervalId = false;
 		}
@@ -34,7 +34,7 @@
 		content.element.removeEventListener('mouseup', handleEvent.bind(content));
 		content.element.removeEventListener('mouseleave', handleEvent.bind(content));
 		content.element.removeEventListener('touchend', handleEvent.bind(content));
-	};
+	}
 
 	function handleEvent(event) {
 		switch(event.type) {
@@ -52,7 +52,7 @@
 				endDrag(this, event);
 				break;
 		}
-	};
+	}
 
 	function startDrag(content, event) {
 		content.dragging = true;
@@ -61,7 +61,7 @@
 		content.delta = [parseInt(unify(event).clientX), parseInt(unify(event).clientY)];
 		// emit drag start event
 		emitSwipeEvents(content, 'dragStart', content.delta);
-	};
+	}
 
 	function endDrag(content, event) {
 		cancelDragging(content);
@@ -92,7 +92,7 @@
 		// emit drag end event
 	  emitSwipeEvents(content, 'dragEnd', [dx, dy]);
 	  content.dragging = false;
-	};
+	}
 
 	function drag(content, event) {
 		if(!content.dragging) return;
@@ -100,22 +100,22 @@
 		(!window.requestAnimationFrame) 
 			? content.intervalId = setTimeout(function(){emitDrag.bind(content, event);}, 250) 
 			: content.intervalId = window.requestAnimationFrame(emitDrag.bind(content, event));
-	};
+	}
 
 	function emitDrag(event) {
 		emitSwipeEvents(this, 'dragging', [parseInt(unify(event).clientX), parseInt(unify(event).clientY)]);
-	};
+	}
 
 	function unify(event) { 
 		// unify mouse and touch events
 		return event.changedTouches ? event.changedTouches[0] : event; 
-	};
+	}
 
 	function emitSwipeEvents(content, eventName, detail) {
 		// emit event with coordinates
 		var event = new CustomEvent(eventName, {detail: {x: detail[0], y: detail[1]}});
 		content.element.dispatchEvent(event);
-	};
+	}
 
 	window.SwipeContent = SwipeContent;
 	

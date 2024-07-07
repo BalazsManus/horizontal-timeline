@@ -10,7 +10,7 @@ const datatemplate = `<li class="%datatype%">
     <h2 class="cd-h-timeline__event-title">%title%</h2>
     <em class="cd-h-timeline__event-date">%date%</em>
     <p class="cd-h-timeline__event-description color-contrast-medium"> 
-        <iframe src="/md.htm?src=%path%" frameborder="0" width="100%"></iframe>
+        <iframe src="/md.htm?src=%path%" width="100%"></iframe>
     </p>
     </div>
     </li>`;
