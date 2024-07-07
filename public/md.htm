@@ -1,0 +1,48 @@
+<html lang="en-us">
+
+<head>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <zero-md id="md" src="">
+        <template>
+            <link rel="stylesheet" href="/assets/css/md.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github.min.css">
+            <link rel="stylesheet" media="(prefers-color-scheme:dark)" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css">
+        </template>
+    </zero-md>
+</body>
+
+<script>
+    function getQuery(key) {
+        var query = window.location.search.substring(1);
+        var key_values = query.split("&");
+        var params = {};
+        key_values.map(function (key_val) {
+            var key_val_arr = key_val.split("=");
+            params[key_val_arr[0]] = key_val_arr[1];
+        });
+        if (typeof params[key] != "undefined") {
+            return params[key];
+        }
+        return "";
+    }
+
+    window.onload = function () {
+        md = document.getElementById('md')
+        md.setAttribute("src", "/api/entries/content?file=" + getQuery("src"))
+        md.setAttribute("no-shadow", "")
+        
+        md.addEventListener('zero-md-rendered', function() {
+            console.log("ok")
+            const styles = document.getElementsByClassName("markdown-styles");
+            styles[0].innerHTML += '';
+        });
+    }
+</script>
+
+</html>
