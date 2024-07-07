@@ -112,7 +112,7 @@ window.addEventListener('message', function(event) {
     if (event.data.iframeHeight && event.data.iframeId) {
         const iframe = document.getElementById(event.data.iframeId);
         if (iframe) {
-            iframe.style.height = `${event.data.iframeHeight}px`;
+            iframe.style.height = `${event.data.iframeHeight + 5}px`;
         }
     }
 }, false);
