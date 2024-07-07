@@ -8,5 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="github-markdown-css" level="application" />
+    <orderEntry type="library" name="@highlightjs/cdn-assets" level="application" />
+    <orderEntry type="library" name="katex" level="application" />
   </component>
 </module>
