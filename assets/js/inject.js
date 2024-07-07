@@ -45,22 +45,22 @@ window.onload = async function() {
 
             const type = index === totalItems - 1 ? date_sel : date_normal;
             const datatype = index === totalItems - 1 ? data_sel : data_normal;
-            const reversedIndex = totalItems - 1 - index;
+            const currentIndex = index;
             
             const editeddate = datetemplate
                 .replace('%date%', date)
                 .replace('%format_date%', dateformatted)
                 .replace('%type%', type)
-                .replace('%id%', reversedIndex.toString())
-                .replace('%hr%', reversedIndex.toString());
+                .replace('%id%', currentIndex.toString())
+                .replace('%hr%', currentIndex.toString());
             dates.innerHTML += editeddate;
             const editeddata = datatemplate
                 .replace('%title%', title)
-                .replace('%date%', `(#${reversedIndex.toString()}) ${date}`)
+                .replace('%date%', `(#${currentIndex.toString()}) ${date}`)
                 .replace('%path%', encodeURIComponent(file))
                 .replace('%iframeid%', encodeURIComponent(file))
                 .replace('%datatype%', datatype)
-                .replace('%id%', reversedIndex.toString());
+                .replace('%id%', currentIndex.toString());
             data.innerHTML += editeddata;
         }
     } catch (error) {
